@@ -17,8 +17,19 @@ public class ScannerThread extends Thread {
 
   final static Logger logger = Logger.getLogger(ScannerThread.class);
 
+  /**
+   * The process id.
+   */
   private int processId;
+
+  /**
+   * Request with parameters from command line.
+   */
   private MappedScanRequest mappedScanRequest;
+
+  /**
+   * Processor which provides scanning and copying files.
+   */
   private FileProcessor fileProcessor = FileProcessorImpl.getInstance();
 
   public ScannerThread(int processId, MappedScanRequest mappedScanRequest) {
@@ -60,19 +71,4 @@ public class ScannerThread extends Thread {
       executorService.shutdownNow();
     }
   }
-
-//    @Override
-//  public void run() {
-//    System.out.println("Scan and copy files (process id = " + processId + ") started");
-//    try {
-//      fileProcessor.process(processId, mappedScanRequest);
-//      Thread.sleep(5000);
-//    } catch (IOException e) {
-//      logger.error(e.getStackTrace());
-//    } catch (InterruptedException e) {
-//      logger.error(e.getStackTrace());
-//      return;
-//    }
-//    System.out.println("Scan and copy files (process id = " + processId + ") finished");
-//  }
 }

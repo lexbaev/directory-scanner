@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -27,7 +28,12 @@ public class DirectoryScannerConsole {
     initLogger();
     Configuration configuration = new ConfigurationImpl();
 
-    Map<String, Class> menuMap = configuration.initMenuMap();
+    Map<String, Class> menuMap = null;
+    try {
+      menuMap = configuration.initMenuMap();
+    } catch (IOException e) {
+      logger.error("File properties is not found");
+    }
     if (logger.isInfoEnabled()) {
       for (String key : menuMap.keySet()) {
         logger.info("Initialized menu option: " + key);

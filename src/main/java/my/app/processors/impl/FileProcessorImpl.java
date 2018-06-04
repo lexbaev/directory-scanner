@@ -25,9 +25,9 @@ public class FileProcessorImpl implements FileProcessor {
   private FileProcessorImpl() {
   }
 
-  private static FileProcessorImpl fileProcessor = new FileProcessorImpl();
+  private static FileProcessor fileProcessor = new FileProcessorImpl();
 
-  public static FileProcessorImpl getInstance() {
+  public static FileProcessor getInstance() {
     return fileProcessor;
   }
 
@@ -67,7 +67,7 @@ public class FileProcessorImpl implements FileProcessor {
         if (accept(file.getName(), mask)) {
           logger.debug("Found file: " + file.getPath());
           lock.lock();
-          logger.debug("locked file: " + file.getName() + " by process id = " + processId);
+          logger.debug("Locked file: " + file.getName() + " by process id = " + processId);
           try {
             FileUtils.copyFileToDirectory(file, destinationDir);
           } catch (IOException e) {
@@ -80,7 +80,7 @@ public class FileProcessorImpl implements FileProcessor {
               logger.error("Deleting files process failed");
             }
           }
-          logger.debug("unlocked: " + file.getName() + " by process id = " + processId);
+          logger.debug("Unlocked: " + file.getName() + " by process id = " + processId);
           lock.unlock();
         }
       }
