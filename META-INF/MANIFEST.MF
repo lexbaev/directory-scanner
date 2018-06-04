@@ -1,1 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 1.8.0_141 (Oracle Corporation)
 Main-Class: my.app.DirectoryScannerConsole
+Class-Path: lib/log4j-1.2.17.jar
