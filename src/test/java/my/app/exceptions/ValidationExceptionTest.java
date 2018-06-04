@@ -12,7 +12,7 @@ public class ValidationExceptionTest {
       "\tInvalid value for input \n" +
       "\tInvalid value for output \n" +
       "\tInvalid value for waitInterval \n" +
-      "\tInvalid value for includeSubfolder \n" +
+      "\tInvalid value for includeSubFolders \n" +
       "\tInvalid value for autoDelete \n";
     ValidationException validationException = new ValidationException(false, false, false, false, false);
     assertEquals(outputMessage, validationException.getMessage());

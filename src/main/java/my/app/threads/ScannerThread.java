@@ -53,9 +53,9 @@ public class ScannerThread extends Thread {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Future future = executorService.submit(() -> {
       try {
-        logger.info("Process id = " + processId + ". Scan and copy files started");
+        logger.debug("Process id = " + processId + ". Scan and copy files started");
         fileProcessor.process(processId, mappedScanRequest);
-        logger.info("Process id = " + processId + ". Scan and copy files finished");
+        logger.debug("Process id = " + processId + ". Scan and copy files finished");
       } catch (IOException e) {
         logger.error(e.getMessage());
       }

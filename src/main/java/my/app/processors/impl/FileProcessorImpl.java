@@ -35,61 +35,74 @@ public class FileProcessorImpl implements FileProcessor {
   }
 
   public void process(Integer processId, MappedScanRequest mappedScanRequest) {
-    File dir = new File(mappedScanRequest.getSourcePath());
-    if (!dir.isDirectory()) {
-      System.out.println("The input path is not a folder: " + mappedScanRequest.getSourcePath());
+    File sourceDir = new File(mappedScanRequest.getSourcePath());
+    if (!sourceDir.isDirectory()) {
+      logger.error("The input path is not a folder: " + mappedScanRequest.getSourcePath());
       return;
     }
 
     File destinationDir = createDirectory(mappedScanRequest.getDestinationPath());
-    File[] directoryListing = dir.listFiles();
+    File[] directoryListing = sourceDir.listFiles();
 
-    if (directoryListing == null) {
-      System.out.println("The selected folder does not contain any file.");
+    if (directoryListing == null || directoryListing.length == 0) {
+      logger.info("The selected folder does not contain any file.");
+      return;
     }
 
-    scanAndCopyFiles(processId, dir, destinationDir, mappedScanRequest.getMask(),
+    scanAndCopyFiles(processId, sourceDir, destinationDir, mappedScanRequest.getMask(),
       mappedScanRequest.isIncludeSubfolders(), mappedScanRequest.isAutodelete());
   }
 
   /**
    * Scans tree of directories
    *
-   * @param source
+   * @param sourceDir
    * @param mask
    * @return
    */
-  protected void scanAndCopyFiles(Integer processId, File source, File destinationDir, String mask,
+  protected void scanAndCopyFiles(Integer processId, File sourceDir, File destinationDir, String mask,
                                   boolean isIncludeSubfolders, boolean isAutodelete) {
-    for (File file : source.listFiles()) {
+    for (File file : sourceDir.listFiles()) {
       if (file.isDirectory() && isIncludeSubfolders) {
         File newFolder = new File(destinationDir.getPath() + File.separator + file.getName());
         newFolder.mkdir();
         scanAndCopyFiles(processId, file, newFolder, mask, isIncludeSubfolders, isAutodelete);
       } else {
         if (accept(file.getName(), mask)) {
-          lock.lock();
-          logger.debug("Found file: " + file.getPath() + " by process id = " + processId);
-          logger.debug("Locked file: " + file.getName() + " by process id = " + processId);
-          try {
-            FileUtils.copyFileToDirectory(file, destinationDir);
-            logger.debug("File " + file.getName() + " has been copied by process id = " + processId);
-          } catch (IOException e) {
-            logger.error("Copying files process failed. " + e.getMessage());
-          }
-          if (isAutodelete) {
-            try {
-              FileUtils.forceDelete(file);
-              logger.debug("File " + file.getName() + " has been deleted by process id = " + processId);
-            } catch (IOException e) {
-              logger.error("Deleting files process failed. " + e.getMessage());
-            }
-          }
-          logger.debug("Unlocked: " + file.getName() + " by process id = " + processId);
-          lock.unlock();
+          copyMoveFiles(processId, destinationDir, isAutodelete, file);
         }
       }
     }
+  }
+
+  /**
+   * The method copies or if it is required then removes original files after copying.
+   *
+   * @param processId
+   * @param destinationDir
+   * @param isAutodelete
+   * @param file
+   */
+  private void copyMoveFiles(Integer processId, File destinationDir, boolean isAutodelete, File file) {
+    lock.lock();
+    logger.debug("Found file: " + file.getPath() + " by process id = " + processId);
+    logger.debug("Locked file: " + file.getName() + " by process id = " + processId);
+    try {
+      FileUtils.copyFileToDirectory(file, destinationDir);
+      logger.debug("File " + file.getName() + " has been copied by process id = " + processId);
+    } catch (IOException e) {
+      logger.error("Copying files process failed. " + e.getMessage());
+    }
+    if (isAutodelete) {
+      try {
+        FileUtils.forceDelete(file);
+        logger.debug("File " + file.getName() + " has been deleted by process id = " + processId);
+      } catch (IOException e) {
+        logger.error("Deleting files process failed. " + e.getMessage());
+      }
+    }
+    logger.debug("Unlocked: " + file.getName() + " by process id = " + processId);
+    lock.unlock();
   }
 
   /**

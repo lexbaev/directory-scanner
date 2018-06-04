@@ -21,7 +21,7 @@ public class ValidationException extends Exception {
       message.append("\tInvalid value for waitInterval \n");
     }
     if (!isValidIncludeSubfolder) {
-      message.append("\tInvalid value for includeSubfolder \n");
+      message.append("\tInvalid value for includeSubFolders \n");
     }
     if (!isValidAutoDelete) {
       message.append("\tInvalid value for autoDelete \n");
