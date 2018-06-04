@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  */
 public class CommandLineMapperScanMenuImpl implements CommandLineMapper {
 
-  final static Logger logger = Logger.getLogger(CommandLineMapperScanMenuImpl.class);
+  private final static Logger logger = Logger.getLogger(CommandLineMapperScanMenuImpl.class);
 
   private CommandLineMapperScanMenuImpl() {
   }

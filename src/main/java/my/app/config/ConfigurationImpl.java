@@ -16,7 +16,7 @@ import java.util.Properties;
  */
 public class ConfigurationImpl implements Configuration {
 
-  final static Logger logger = Logger.getLogger(ConfigurationImpl.class);
+  private final static Logger logger = Logger.getLogger(ConfigurationImpl.class);
 
   @Override
   public Map<String, Class> initMenuMap() {

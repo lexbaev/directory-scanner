@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class CommandLineParserImpl implements CommandLineParser {
 
-  final static Logger logger = Logger.getLogger(CommandLineParserImpl.class);
+  private final static Logger logger = Logger.getLogger(CommandLineParserImpl.class);
 
   private CommandLineParserImpl() {
   }

@@ -15,7 +15,7 @@ import java.util.concurrent.*;
  */
 public class ScannerThread extends Thread {
 
-  final static Logger logger = Logger.getLogger(ScannerThread.class);
+  private final static Logger logger = Logger.getLogger(ScannerThread.class);
 
   /**
    * The process id.

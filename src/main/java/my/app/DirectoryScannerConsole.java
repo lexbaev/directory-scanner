@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 public class DirectoryScannerConsole {
 
-  final static Logger logger = Logger.getLogger(DirectoryScannerConsole.class);
+  private final static Logger logger = Logger.getLogger(DirectoryScannerConsole.class);
 
   private static final String EXIT_COMMAND = "exit";
 

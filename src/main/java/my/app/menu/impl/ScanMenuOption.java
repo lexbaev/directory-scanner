@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class ScanMenuOption implements MenuOption {
 
-  final static Logger logger = Logger.getLogger(ScanMenuOption.class);
+  private final static Logger logger = Logger.getLogger(ScanMenuOption.class);
 
   /**
    * Command line parser
