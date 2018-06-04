@@ -18,9 +18,18 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class FileProcessorImpl implements FileProcessor {
 
-  final static Logger logger = Logger.getLogger(FileProcessorImpl.class);
+  private final static Logger logger = Logger.getLogger(FileProcessorImpl.class);
 
   private Lock lock = new ReentrantLock();
+
+  private FileProcessorImpl() {
+  }
+
+  private static FileProcessorImpl fileProcessor = new FileProcessorImpl();
+
+  public static FileProcessorImpl getInstance() {
+    return fileProcessor;
+  }
 
   public void process(Integer processId, MappedScanRequest mappedScanRequest) {
     File dir = new File(mappedScanRequest.getSourcePath());
@@ -58,7 +67,7 @@ public class FileProcessorImpl implements FileProcessor {
         if (accept(file.getName(), mask)) {
           logger.debug("Found file: " + file.getPath());
           lock.lock();
-          System.out.println("locked file: " + file.getName() + " by process id = " + processId);
+          logger.debug("locked file: " + file.getName() + " by process id = " + processId);
           try {
             FileUtils.copyFileToDirectory(file, destinationDir);
           } catch (IOException e) {
@@ -71,7 +80,7 @@ public class FileProcessorImpl implements FileProcessor {
               logger.error("Deleting files process failed");
             }
           }
-          System.out.println("unlocked: " + file.getName() + " by process id = " + processId);
+          logger.debug("unlocked: " + file.getName() + " by process id = " + processId);
           lock.unlock();
         }
       }

@@ -19,6 +19,7 @@ public class ScannerThread extends Thread {
 
   private int processId;
   private MappedScanRequest mappedScanRequest;
+  private FileProcessor fileProcessor = FileProcessorImpl.getInstance();
 
   public ScannerThread(int processId, MappedScanRequest mappedScanRequest) {
     this.processId = processId;
@@ -27,7 +28,7 @@ public class ScannerThread extends Thread {
 
   @Override
   public void run() {
-    createScanThreadExecutor(processId, mappedScanRequest);
+    createScanThreadExecutor(processId, mappedScanRequest, fileProcessor);
   }
 
   /**
@@ -37,13 +38,12 @@ public class ScannerThread extends Thread {
    * @param processId
    * @param mappedScanRequest
    */
-  private static void createScanThreadExecutor(int processId, MappedScanRequest mappedScanRequest) {
+  private static void createScanThreadExecutor(int processId, MappedScanRequest mappedScanRequest, FileProcessor fileProcessor) {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Future future = executorService.submit(() -> {
-      FileProcessor fileHandler = new FileProcessorImpl();
       try {
         logger.info("Process id = " + processId + ". Scan and copy files started");
-        fileHandler.process(processId, mappedScanRequest);
+        fileProcessor.process(processId, mappedScanRequest);
         logger.info("Process id = " + processId + ". Scan and copy files finished");
       } catch (IOException e) {
         logger.error(e.getStackTrace());
@@ -61,17 +61,16 @@ public class ScannerThread extends Thread {
     }
   }
 
-  //  @Override
+//    @Override
 //  public void run() {
 //    System.out.println("Scan and copy files (process id = " + processId + ") started");
-//    FileProcessor fileHandler = new FileProcessorImpl();
 //    try {
-//      fileHandler.process(mappedScanRequest);
+//      fileProcessor.process(processId, mappedScanRequest);
 //      Thread.sleep(5000);
 //    } catch (IOException e) {
-//      e.printStackTrace();  //todo add logging
+//      logger.error(e.getStackTrace());
 //    } catch (InterruptedException e) {
-//      e.printStackTrace();  //todo add logging
+//      logger.error(e.getStackTrace());
 //      return;
 //    }
 //    System.out.println("Scan and copy files (process id = " + processId + ") finished");
