@@ -25,7 +25,7 @@ public class ConfigurationImpl implements Configuration {
     try {
       config.load(prop);
     } catch (IOException e) {
-      logger.error("The properties file is not found or invalid");
+      logger.error("The properties file is not found or invalid. " + e.getStackTrace());
       System.exit(1);
     }
 
@@ -34,7 +34,7 @@ public class ConfigurationImpl implements Configuration {
       try {
         menuMap.put(key, Class.forName(config.getProperty(key)));
       } catch (ClassNotFoundException e) {
-        logger.error("The class " + config.getProperty(key) + "from configuration properties is not found");
+        logger.error("The class " + config.getProperty(key) + "from configuration properties is not found. " + e.getStackTrace());
         System.exit(1);
       }
     }

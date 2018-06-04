@@ -81,7 +81,7 @@ public class ScanMenuOption implements MenuOption {
       return;
     }
     if (mappedRequest == null) {
-      logger.error("Mapping of arguments is invalid");
+      logger.error("Mapping of arguments is invalid.");
       return;
     }
     Thread thread = new ScannerThread(processId, mappedRequest);

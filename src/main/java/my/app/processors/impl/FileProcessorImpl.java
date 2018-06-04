@@ -20,6 +20,9 @@ public class FileProcessorImpl implements FileProcessor {
 
   private final static Logger logger = Logger.getLogger(FileProcessorImpl.class);
 
+  /**
+   * Locks file for reading.
+   */
   private Lock lock = new ReentrantLock();
 
   private FileProcessorImpl() {
@@ -71,13 +74,13 @@ public class FileProcessorImpl implements FileProcessor {
           try {
             FileUtils.copyFileToDirectory(file, destinationDir);
           } catch (IOException e) {
-            logger.error("Copying files process failed");
+            logger.error("Copying files process failed. " + e.getStackTrace());
           }
           if (isAutodelete) {
             try {
               FileUtils.forceDelete(file);
             } catch (IOException e) {
-              logger.error("Deleting files process failed");
+              logger.error("Deleting files process failed. " + e.getStackTrace());
             }
           }
           logger.debug("Unlocked: " + file.getName() + " by process id = " + processId);

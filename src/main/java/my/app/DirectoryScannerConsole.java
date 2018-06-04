@@ -32,7 +32,7 @@ public class DirectoryScannerConsole {
     try {
       menuMap = configuration.initMenuMap();
     } catch (IOException e) {
-      logger.error("File properties is not found");
+      logger.error("File properties is not found. " + e.getStackTrace());
     }
     if (logger.isInfoEnabled()) {
       for (String key : menuMap.keySet()) {
