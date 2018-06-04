@@ -96,7 +96,7 @@ public class DirectoryScannerConsole {
     } catch (InstantiationException e) {
       logger.error("Creating instance of class " + clazz.getName() + " failed. \n" + e.getMessage());
     } catch (IllegalAccessException | InvocationTargetException e) {
-      logger.error(e.getStackTrace());
+      logger.error(e.getMessage() + "\n" + e.getCause());
     }
     return menuOption;
   }
