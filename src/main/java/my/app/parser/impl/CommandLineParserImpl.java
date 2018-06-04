@@ -48,7 +48,7 @@ public class CommandLineParserImpl implements CommandLineParser {
     try {
       commandLine = parser.parse(options, args);
     } catch (ParseException e) {
-      logger.warn(e.getStackTrace());
+      logger.warn(e.getMessage());
       formatter.printHelp("utility-name", options);
     }
     return commandLine;

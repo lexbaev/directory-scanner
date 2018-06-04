@@ -32,7 +32,7 @@ public class DirectoryScannerConsole {
     try {
       menuMap = configuration.initMenuMap();
     } catch (IOException e) {
-      logger.error("File properties is not found. " + e.getStackTrace());
+      logger.error("File properties is not found. " + e.getMessage());
     }
     if (logger.isInfoEnabled()) {
       for (String key : menuMap.keySet()) {
@@ -82,19 +82,19 @@ public class DirectoryScannerConsole {
     try {
       clazz = Class.forName(aClass.getName());
     } catch (ClassNotFoundException e) {
-      logger.error("Command " + command + " is not correct. \n" + e.getStackTrace());
+      logger.error("Command " + command + " is not correct. \n" + e.getMessage());
     }
     Constructor<?> ctor = null;
     try {
       ctor = clazz.getConstructor();
     } catch (NoSuchMethodException e) {
-      logger.error("The class " + clazz.getName() + "should contain constructor without arguments. \n" + e.getStackTrace());
+      logger.error("The class " + clazz.getName() + "should contain constructor without arguments. \n" + e.getMessage());
     }
     MenuOption menuOption = null;
     try {
       menuOption = (MenuOption) ctor.newInstance();
     } catch (InstantiationException e) {
-      logger.error("Creating instance of class " + clazz.getName() + " failed. \n" + e.getStackTrace());
+      logger.error("Creating instance of class " + clazz.getName() + " failed. \n" + e.getMessage());
     } catch (IllegalAccessException | InvocationTargetException e) {
       logger.error(e.getStackTrace());
     }

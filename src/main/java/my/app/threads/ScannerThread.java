@@ -57,7 +57,7 @@ public class ScannerThread extends Thread {
         fileProcessor.process(processId, mappedScanRequest);
         logger.info("Process id = " + processId + ". Scan and copy files finished");
       } catch (IOException e) {
-        logger.error(e.getStackTrace());
+        logger.error(e.getMessage());
       }
     });
     try {
@@ -66,7 +66,7 @@ public class ScannerThread extends Thread {
       future.cancel(true); // cancel and send a thread interrupt
       logger.error("Scan process id = " + processId + " timeout");
     } catch (InterruptedException | ExecutionException e) {
-      logger.error(e.getStackTrace());
+      logger.error(e.getMessage());
     } finally {
       executorService.shutdownNow();
     }

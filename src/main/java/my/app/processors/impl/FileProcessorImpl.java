@@ -68,19 +68,21 @@ public class FileProcessorImpl implements FileProcessor {
         scanAndCopyFiles(processId, file, newFolder, mask, isIncludeSubfolders, isAutodelete);
       } else {
         if (accept(file.getName(), mask)) {
-          logger.debug("Found file: " + file.getPath());
           lock.lock();
+          logger.debug("Found file: " + file.getPath() + " by process id = " + processId);
           logger.debug("Locked file: " + file.getName() + " by process id = " + processId);
           try {
             FileUtils.copyFileToDirectory(file, destinationDir);
+            logger.debug("File " + file.getName() + " has been copied by process id = " + processId);
           } catch (IOException e) {
-            logger.error("Copying files process failed. " + e.getStackTrace());
+            logger.error("Copying files process failed. " + e.getMessage());
           }
           if (isAutodelete) {
             try {
               FileUtils.forceDelete(file);
+              logger.debug("File " + file.getName() + " has been deleted by process id = " + processId);
             } catch (IOException e) {
-              logger.error("Deleting files process failed. " + e.getStackTrace());
+              logger.error("Deleting files process failed. " + e.getMessage());
             }
           }
           logger.debug("Unlocked: " + file.getName() + " by process id = " + processId);
