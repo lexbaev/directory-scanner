@@ -9,16 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Initializes map with menu options.
+ * <p>
+ * Developed by Aliaksei Lizunou.
+ */
 public class ConfigurationImpl implements Configuration {
 
   final static Logger logger = Logger.getLogger(ConfigurationImpl.class);
-  /**
-   * Initializes map with menu options.
-   * <p>
-   * Developed by Aliaksei Lizunou.
-   *
-   * @return
-   */
+
   @Override
   public Map<String, Class> initMenuMap() {
     InputStream prop = getClass().getResourceAsStream("/config/config.properties");
@@ -31,7 +30,7 @@ public class ConfigurationImpl implements Configuration {
     }
 
     Map<String, Class> menuMap = new HashMap<>();
-    for(String key : config.stringPropertyNames()) {
+    for (String key : config.stringPropertyNames()) {
       try {
         menuMap.put(key, Class.forName(config.getProperty(key)));
       } catch (ClassNotFoundException e) {

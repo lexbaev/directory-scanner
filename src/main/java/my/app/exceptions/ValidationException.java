@@ -1,5 +1,10 @@
 package my.app.exceptions;
 
+/**
+ * Exception with information of invalid values of command line arguments.
+ * <p>
+ * Developed by Aliaksei Lizunou.
+ */
 public class ValidationException extends Exception {
 
   private String message;

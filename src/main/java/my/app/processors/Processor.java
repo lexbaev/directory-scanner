@@ -3,7 +3,7 @@ package my.app.processors;
 import java.io.IOException;
 
 /**
- * Interface for all the processors.
+ * Root interface for all the processors.
  * <p>
  * Developed by Aliaksei Lizunou.
  *
