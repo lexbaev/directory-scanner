@@ -34,11 +34,7 @@ public class CommandLineMapperScanMenuImpl implements CommandLineMapper {
       System.out.println("The required arguments are not found. Please try again.");
       return null;
     }
-    boolean isValidSource;
-    boolean isValidDestination;
-    boolean isValidWaitInterval;
-    boolean isValidIncludeSubfolder;
-    boolean isValidAutodelete;
+    boolean isValidSource, isValidDestination, isValidWaitInterval, isValidIncludeSubfolder, isValidAutodelete;
 
     String source = commandLine.getOptionValue(INPUT.getName());
     isValidSource = isValidPath(source);
@@ -48,7 +44,7 @@ public class CommandLineMapperScanMenuImpl implements CommandLineMapper {
 
     String mask = commandLine.getOptionValue(MASK.getName());
 
-    long waitInterval = 0l;
+    long waitInterval = 0L;
     try {
       waitInterval = Long.parseLong(commandLine.getOptionValue(WAIT_INTERVAL.getName()));
       isValidWaitInterval = true;
@@ -78,10 +74,7 @@ public class CommandLineMapperScanMenuImpl implements CommandLineMapper {
    * @return
    */
   protected boolean isValidBoolean(String text) {
-    if (isBlank(text) || !text.toLowerCase().matches("true|false")) {
-      return false;
-    }
-    return true;
+    return !isBlank(text) && text.toLowerCase().matches("true|false");
   }
 
   /**
@@ -91,9 +84,6 @@ public class CommandLineMapperScanMenuImpl implements CommandLineMapper {
    * @return
    */
   protected boolean isValidPath(String path) {
-    if (path.matches("^[a-zA-Z]:[\\\\S|*\\S]?.*$") || path.matches("^[a-zA-Z]:[/\\S|*\\S]?.*$")) {
-      return true;
-    }
-    return false;
+    return path.matches("^[a-zA-Z]:[\\\\S|*\\S]?.*$") || path.matches("^[a-zA-Z]:[/\\S|*\\S]?.*$");
   }
 }

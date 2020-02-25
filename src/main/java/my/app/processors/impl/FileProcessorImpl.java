@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -56,8 +57,12 @@ public class FileProcessorImpl implements FileProcessor {
   /**
    * Scans tree of directories
    *
+   * @param processId
    * @param sourceDir
+   * @param destinationDir
    * @param mask
+   * @param isIncludeSubfolders
+   * @param isAutodelete
    * @return
    */
   protected void scanAndCopyFiles(Integer processId, File sourceDir, File destinationDir, String mask,
